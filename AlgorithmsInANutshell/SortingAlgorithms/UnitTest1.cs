@@ -55,7 +55,9 @@ public static class SetExtensions
     {
         var input = new Stack<T>();
         foreach (var item in items)
+        {
             input.Push(item);
+        }
 
         var output = new Stack<T>();
 
@@ -71,6 +73,8 @@ public static class SetExtensions
         }
 
         while (output.TryPop(out var popped))
+        {
             yield return popped;
+        }
     }
 }

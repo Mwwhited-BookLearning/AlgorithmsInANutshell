@@ -1,0 +1,17 @@
+twenty-six (26) B				twenty-six (26) B
+L:seventeen (17) R				L:seventeen (17) R
+	L:fifteen (15) R				L:fifteen (15) B
+		L:thirteen (13) R				L:thirteen (13) R
+			L:<null>						L:<null>
+			G:fourteen (14) R				G:fourteen (14) R
+				L:<null>						L:<null>
+				G:<null>						G:<null>
+		G:sixteen (16) R				G:sixteen (16) B
+			L:<null>						L:<null>
+			G:<null>						G:<null>
+	G:twenty-five (25) R			G:twenty-five (25) B
+		L:<null>						L:<null>
+		G:<null>						G:<null>
+G:fourty-three (43) R			G:fourty-three (43) B
+	L:<null>						L:<null>
+	G:<null>                    	G:<null>
