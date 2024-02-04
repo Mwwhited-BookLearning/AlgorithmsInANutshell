@@ -2,7 +2,7 @@
 
 public enum NodeColors
 {
-    None,
-    Black,
-    Red,
+    Red = -1,
+    None = 0,
+    Black = 1,
 }

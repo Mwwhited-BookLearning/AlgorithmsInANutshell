@@ -1,58 +1,29 @@
-﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using Newtonsoft.Json.Linq;
+﻿namespace SearchingAlgorithms.BinaryTrees.RedBlackTrees;
 
-namespace SearchingAlgorithms.BinaryTrees.RedBlackTrees;
-public class RedBlackNode<TIndex, TValue> : IComparable<RedBlackNode<TIndex, TValue>>
+public class RedBlackNode<TIndex, TValue> :
+    IComparable<RedBlackNode<TIndex, TValue>>,
+    IComparable<TIndex>,
+    IEquatable<NodeColors>,
+    IEquatable<RedBlackNode<TIndex, TValue>>
     where TIndex : IComparable<TIndex>
 {
-    public const string NULL = "<null>";
+    public const string NULL = "<nil>";
 
     public NodeColors Color { get; internal set; }
     public TIndex Index { get; internal set; }
-    public TValue? Value { get; set; }
+    public TValue? Value { get; internal set; }
 
     public RedBlackNode<TIndex, TValue>? Parent { get; internal set; }
     public RedBlackNode<TIndex, TValue>? Lesser { get; internal set; }
     public RedBlackNode<TIndex, TValue>? Greater { get; internal set; }
 
-    internal static RedBlackNode<TIndex, TValue> RotateLeft(RedBlackNode<TIndex, TValue> node)
-    {
-        var greater = node.Greater ??= new();
-        var lesser = node.Lesser ??= new();
-        greater.Lesser = node;
-        node.Greater = lesser;
-        node.Lesser = greater;
-        lesser.Parent = node;
-
-        //if (greater.Lesser != null && greater.Lesser.Value == null)
-        //    greater.Lesser = null;
-        //if (greater.Greater != null && greater.Greater.Value == null)
-        //    greater.Greater = null;
-
-        return greater;
-    }
-    internal static RedBlackNode<TIndex, TValue> RotateRight(RedBlackNode<TIndex, TValue> node)
-    {
-        var lesser = node.Lesser ??= new();
-        var greater = node.Greater ??= new();
-        lesser.Greater = node;
-        node.Greater = node;
-        node.Lesser = greater;
-        node.Parent = lesser;
-
-        //if (lesser.Lesser != null && lesser.Lesser.Value == null)
-        //    lesser.Lesser = null;
-        //if (lesser.Greater != null && lesser.Greater.Value == null)
-        //    lesser.Greater = null;
-
-        return lesser;
-    }
-
-    public int CompareTo(RedBlackNode<TIndex, TValue>? other) =>
-        other == null ? 0 : Index.CompareTo(other.Index);
+    public int CompareTo(RedBlackNode<TIndex, TValue>? other) => other == null ? 0 : CompareTo(other.Index);
+    public int CompareTo(TIndex? other) => other == null ? 0 : Index.CompareTo(other);
+    public bool Equals(NodeColors other) => Color == other;
+    public bool Equals(RedBlackNode<TIndex, TValue>? other) => other != null && Index.Equals(other.Index);
+    public bool Equals(TIndex? other) => other != null && Index.CompareTo(Index) == 0;
 
     public override string ToString() => ToString(0);
-
     public string ToString(int depth) =>
         string.Join(Environment.NewLine,
             $"{Value} ({Index}) {Color}",
