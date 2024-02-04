@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace SortingAlgorithms;
 
 [TestClass]
 public class InsertionSort
 {
-    public TestContext TestContext { get; set; }
+    public required TestContext TestContext { get; set; }
 
     [TestMethod]
     public void InsertionSortTest()

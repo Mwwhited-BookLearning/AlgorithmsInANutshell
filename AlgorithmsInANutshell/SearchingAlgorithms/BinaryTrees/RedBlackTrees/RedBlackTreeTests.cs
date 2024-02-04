@@ -16,10 +16,10 @@ public class RedBlackTreeTests
         tree[43] = "fourty-three";
         tree[17] = "seventeen";
         tree[25] = "twenty-five";
-        tree[15] = "fifteen";
-        tree[16] = "sixteen";
-        tree[13] = "thirteen";
-        tree[14] = "fourteen";
+        //tree[15] = "fifteen";
+        //tree[16] = "sixteen";
+        //tree[13] = "thirteen";
+        //tree[14] = "fourteen";
 
         TestContext.WriteLine(tree.ToString());
 

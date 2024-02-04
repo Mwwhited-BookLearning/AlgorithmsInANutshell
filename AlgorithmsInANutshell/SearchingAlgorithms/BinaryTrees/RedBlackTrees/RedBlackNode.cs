@@ -1,10 +1,13 @@
-﻿namespace SearchingAlgorithms.BinaryTrees.RedBlackTrees;
+﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using Newtonsoft.Json.Linq;
 
-public class RedBlackNode<TIndex, TValue> where TIndex : IComparable<TIndex>
+namespace SearchingAlgorithms.BinaryTrees.RedBlackTrees;
+public class RedBlackNode<TIndex, TValue> : IComparable<RedBlackNode<TIndex, TValue>>
+    where TIndex : IComparable<TIndex>
 {
     public const string NULL = "<null>";
 
-    public bool IsRed { get; internal set; }
+    public NodeColors Color { get; internal set; }
     public TIndex Index { get; internal set; }
     public TValue? Value { get; set; }
 
@@ -45,10 +48,14 @@ public class RedBlackNode<TIndex, TValue> where TIndex : IComparable<TIndex>
         return lesser;
     }
 
+    public int CompareTo(RedBlackNode<TIndex, TValue>? other) =>
+        other == null ? 0 : Index.CompareTo(other.Index);
+
     public override string ToString() => ToString(0);
+
     public string ToString(int depth) =>
         string.Join(Environment.NewLine,
-            $"{Value} ({Index}) {(IsRed ? "R" : "B")}",
+            $"{Value} ({Index}) {Color}",
             new string('\t', depth) + $"L:{Lesser?.ToString(depth + 1) ?? NULL}",
             new string('\t', depth) + $"G:{Greater?.ToString(depth + 1) ?? NULL}"
         );
