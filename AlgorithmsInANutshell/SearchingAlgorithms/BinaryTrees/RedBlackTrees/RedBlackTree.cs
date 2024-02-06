@@ -85,23 +85,28 @@ public class RedBlackTree<TIndex, TValue> where TIndex : IComparable<TIndex>
             if (uncle == null || uncle.Equals(NodeColors.Black))
             {
                 // Case_I5 (P red && U black && N inner grandchild of G):
-                var n1 = Rotate(current.Parent, Direction(current.Parent));
-                var n2 = Rotate(current.Parent, Direction(current));
 
-                if (current.Parent == null)
-                    _root = current;
-                else if (current.Parent.Parent == null)
-                    _root = current.Parent;
-                else if (n2 != null && n2.Parent == null)
-                    _root = n2;
-                else if (n1 != null && n1.Parent == null)
-                    _root = n1;
 
-                //this aint right
-                //current = current.Parent;
-                //Rotate(current, Direction(current));
+                var n = Rotate(current);
+                if (n.Parent == null)
+                    _root = n;
 
-                //TODO: there should be a second rotation here
+                //var n2 = Rotate(current.Parent, Direction(current));
+
+                //if (current.Parent == null)
+                //    _root = current;
+                //else if (current.Parent.Parent == null)
+                //    _root = current.Parent;
+                //else if (n2 != null && n2.Parent == null)
+                //    _root = n2;
+                //else if (n1 != null && n1.Parent == null)
+                //    _root = n1;
+
+                ////this aint right
+                ////current = current.Parent;
+                ////Rotate(current, Direction(current));
+
+                ////TODO: there should be a second rotation here
 
                 return;
             }
@@ -136,10 +141,16 @@ public class RedBlackTree<TIndex, TValue> where TIndex : IComparable<TIndex>
         throw new NotImplementedException();
     }
 
+    public static RedBlackNode<TIndex, TValue>? Rotate(RedBlackNode<TIndex, TValue>? node) =>
+        node == null ? null : Rotate(node, Direction(node));
+
     public static RedBlackNode<TIndex, TValue>? Rotate(RedBlackNode<TIndex, TValue>? node, RotationDirections direction)
     {
         if (node?.Parent == null)
             return node;
+
+        if (node.Equals(NodeColors.Red) && )
+
         switch (direction)
         {
             case RotationDirections.Left:
@@ -214,7 +225,6 @@ public class RedBlackTree<TIndex, TValue> where TIndex : IComparable<TIndex>
                 node.Parent.Parent.Lesser :
                 node.Parent.Parent.Greater,
         };
-
 
     public static RotationDirections Direction(RedBlackNode<TIndex, TValue> node) =>
           node.Parent?.Greater?.Equals(node) switch
