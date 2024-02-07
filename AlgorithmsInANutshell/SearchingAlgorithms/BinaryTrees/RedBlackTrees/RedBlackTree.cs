@@ -149,7 +149,7 @@ public class RedBlackTree<TIndex, TValue> where TIndex : IComparable<TIndex>
         if (node?.Parent == null)
             return node;
 
-        if (node.Equals(NodeColors.Red) && )
+        if (node.Equals(NodeColors.Red) )
 
         switch (direction)
         {
