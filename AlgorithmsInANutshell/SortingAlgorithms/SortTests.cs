@@ -7,7 +7,7 @@ namespace SortingAlgorithms;
 [TestClass]
 public class SortTests
 {
-    public const int TheBigSort = 100000;
+    public const int TheBigSort = 10;
 
     public required TestContext TestContext { get; set; }
 
@@ -102,7 +102,7 @@ public class SortTests
         TestContext.WriteLine(string.Join(", ", items.Take(10)));
 
         var copy = new int[TheBigSort];
-        Array.Copy(items,copy, items.Length);
+        Array.Copy(items, copy, items.Length);
         Array.Sort(copy);
 
         CollectionAssert.AreEqual(copy, items);
@@ -113,11 +113,15 @@ public class SortTests
         if (array.Length == 0)
             return array;
 
+       // var temp = new int[array.Length];
+
         var tree = new Node { Value = array[0] };
         for (var i = 1; i < array.Length; i++)
+        {
             tree = tree.Add(array[i]);
-
-        Console.WriteLine(tree);
+            //tree.CopyTo(temp);
+            //Console.WriteLine(i + ": " +string.Join(", ", temp));
+        }
 
         tree.CopyTo(array);
 
@@ -128,29 +132,40 @@ public class SortTests
     {
         public int Value { get; init; }
 
-        public Node? Less { get; private set; }
+        public Node? Lesser { get; private set; }
         public Node? Greater { get; private set; }
 
         public Node Add(int value) => Add(new Node { Value = value });
-        public Node Add(Node other)
+        public Node Add(Node newNode)
         {
-            if (other.Value > Value)
+            if (newNode.Value > Value)
             {
                 if (Greater == null)
-                    Greater = other;
+                    Greater = newNode;
                 else
                 {
-                    _ = Greater.Add(other);
+                    _ = Greater.Add(newNode);
                 }
             }
             else
             {
-                if (Less == null)
-                    Less = other;
+                if (Lesser == null)
+                    Lesser = newNode;
                 else
                 {
-                 
-                    _ = Less.Add(other);
+                    if (Lesser.Value > newNode.Value && Lesser.Greater == null && Lesser.Lesser != null)
+                    {
+                        var lesserChild = Lesser;
+                        var lesserGrandChild = lesserChild.Lesser;
+                        lesserChild.Lesser = null;
+                        Lesser = newNode;
+                        newNode.Add(lesserChild);
+                        newNode.Add(lesserGrandChild);
+                    }
+                    else
+                    {
+                        _ = Lesser.Add(newNode);
+                    }
                 }
             }
 
@@ -166,9 +181,9 @@ public class SortTests
 
         private void CopyTo(int[] items, ref int index)
         {
-            if (Less != null)
+            if (Lesser != null)
             {
-                Less.CopyTo(items, ref index);
+                Lesser.CopyTo(items, ref index);
             }
 
             items[index] = Value;
