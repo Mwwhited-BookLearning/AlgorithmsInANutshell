@@ -15,4 +15,8 @@
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SearchingAlgorithms\SearchingAlgorithms.csproj" />
+  </ItemGroup>
+
 </Project>

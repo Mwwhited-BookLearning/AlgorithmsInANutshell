@@ -8,7 +8,7 @@ namespace SortingAlgorithms;
 [TestClass]
 public class SortTests
 {
-    public const int TheBigSort = 10;
+    public const int TheBigSort = 10; // 100000;
 
     public required TestContext TestContext { get; set; }
 
@@ -131,131 +131,27 @@ public class SortTests
         public Node? Lesser { get; private set; }
         public Node? Greater { get; private set; }
 
-        public Node Add(int value) => Add(new Node { Value = value }, 0).node;
+        public Node Add(int value) => Add(new Node { Value = value });
 
-        private (Node node, int height) Add(Node current, int depth)
+        private Node Add(Node current)
         {
-            int direction = 0;
-            int height = 0;
-            Node? returned = null;
+
             if (current.Value > Value)
             {
                 if (Greater == null)
                     Greater = current;
                 else
-                {
-                    if (current.Value < Greater.Value && Greater.Lesser != null && current.Value > Greater.Lesser.Value)
-                    {
-                        var child = Greater;
-                        var grandChild = child.Lesser;
-                        child.Lesser = null;
-                        current.Lesser = grandChild;
-                        current.Greater = child;
-                        Lesser = current;
-                    }
-                    else if (current.Value < Greater.Value && Greater.Lesser == null)
-                    {
-                        Greater.Lesser = current;
-                    }
-                    else if (current.Value > Greater.Value && Greater.Greater == null)
-                    {
-                        Greater.Greater = current;
-                    }
-                    else if (current.Value > Greater.Value && Greater.Greater != null && current.Value < Greater.Greater.Value)
-                    {
-                        var child = Greater;
-                        var grandChild = child.Greater;
-                        Greater.Greater = null;
-                        current.Lesser = child;
-                        current.Greater = grandChild;
-                        Greater = current;
-                    }
-                    else
-                    {
-                        (returned, height) = Greater.Add(current, depth + 1);
-                        direction = 1;
-                    }
-                }
+                    _ = Greater.Add(current);
             }
             else
             {
                 if (Lesser == null)
                     Lesser = current;
                 else
-                {
-                    if (current.Value < Lesser.Value && Lesser.Lesser != null && current.Value > Lesser.Lesser.Value)
-                    {
-                        var child = Lesser;
-                        var grandChild = child.Lesser;
-                        child.Lesser = null;
-                        current.Lesser = grandChild;
-                        current.Greater = child;
-                        Lesser = current;
-                    }
-                    else if (current.Value < Lesser.Value && Lesser.Lesser == null)
-                    {
-                        Lesser.Lesser = current;
-                    }
-                    else if (current.Value > Lesser.Value && Lesser.Greater == null)
-                    {
-                        Lesser.Greater = current;
-                    }
-                    else if (current.Value > Lesser.Value && Lesser.Greater != null && current.Value < Lesser.Greater.Value)
-                    {
-                        var child = Lesser;
-                        var grandChild = child.Greater;
-                        Lesser.Greater = null;
-                        current.Lesser = child;
-                        current.Greater = grandChild;
-                        Greater = current;
-                    }
-                    else
-                    {
-                        (returned, height) = Lesser.Add(current, depth + 1);
-                        direction = -1;
-                    }
-                }
+                    _ = Lesser.Add(current);
             }
 
-            if (returned != null)
-            {
-                //todo: rotation?
-                Console.WriteLine($"{returned?.Value}, {height}, {depth},  {direction}");
-
-                if (Lesser != null && Lesser.Equals(returned) && Lesser.Greater == null)
-                {
-                    //right
-                    var child = Lesser;
-                    Lesser = null;
-                    child.Greater = this;
-                    return (child, height);
-                }
-                else if (Lesser != null && Lesser.Equals(returned) && Lesser.Greater != null)
-                {
-                    //var child = Lesser;
-                    //var grandChild = child.Greater;
-                    //Lesser = grandChild;
-                    
-
-
-
-                    ////right
-                    ///
-                    //var lesser = Lesser;
-                    //Lesser = null;
-                    //lesser.Greater = this;
-                    //return (lesser, height);
-
-                }
-                else
-                {
-
-                }
-            }
-
-
-
-            return (this, height + 1);
+            return this;
         }
 
         public void CopyTo(int[] items)
